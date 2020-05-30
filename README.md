@@ -1,2 +1,2 @@
 # windows_batch
-batch file samples
+batch file and power shell script samples
