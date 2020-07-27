@@ -1,4 +1,4 @@
-#v0.0.1
+#v0.0.2
 Param ( $local, $server )
 
 Function VersionOf(){
@@ -16,9 +16,16 @@ $local_version=VersionOf $local
 $server_version=VersionOf $server
 
 if ("$local_version" -lt "$server_version"){
-    Rename-Item $local anisotime_$local_version.bat
-    Move-Item $server $local
-}else{
+    $dirname=(Get-Item $local).DirectoryName
+    $newname= $dirname+"\anisotime.bat"
+    Remove-Item $local
+    if (Test-Path $newname){
+        Remove-Item $newname
+    }
+    Move-Item $server $newname
+    $popup=New-Object -ComObject wscript.shell
+    $popup.popup("ANISOtime is updated.",5,"",0)
+}
+else{
     Remove-Item $server
 }
-
